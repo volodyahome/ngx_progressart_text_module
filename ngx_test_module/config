@@ -1,4 +1,4 @@
-ngx_addon_name=ngx_http_brandshop_test_module
+ngx_addon_name=ngx_http_progressart_test_module
 PROGRESSART_TEST_SRCS="$ngx_addon_dir/ngx_progressart_test_module.c"
 
 if [ -n "$ngx_module_link" ]; then
