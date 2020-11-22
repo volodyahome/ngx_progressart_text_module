@@ -114,7 +114,7 @@ ngx_http_progressart_test_handler(ngx_http_request_t *r)
 //    ngx_http_progressart_test_loc_conf_t  *ptlcf;
 //    ptlcf = ngx_http_get_module_loc_conf(r, ngx_http_progressart_test_module);
 
-    if (!(r->method & NGX_HTTP_GET)) {
+    if (!(r->method & (NGX_HTTP_GET|NGX_HTTP_HEAD))) {
         ngx_log_error(NGX_LOG_ERR, r->connection->log, 0, "Invalid request method");
         return NGX_HTTP_NOT_ALLOWED;
     }
