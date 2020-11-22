@@ -19,7 +19,7 @@ static char*    ngx_http_progressart_test(ngx_conf_t *cf, ngx_command_t *cmd, vo
 
 static ngx_int_t    ngx_http_progressart_test_handler(ngx_http_request_t *r);
 
-static ngx_int_t    ngx_http_progressart_test_filter_init(ngx_conf_t *cf);
+//static ngx_int_t    ngx_http_progressart_test_filter_init(ngx_conf_t *cf);
 
 typedef struct {
     ngx_uint_t  show_test;
