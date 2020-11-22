@@ -26,6 +26,9 @@
 		55D78938256A9D56002E0C53 /* ngx_test_module */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ngx_test_module; sourceTree = BUILT_PRODUCTS_DIR; };
 		55D78944256AA51B002E0C53 /* config */ = {isa = PBXFileReference; lastKnownFileType = text; path = config; sourceTree = "<group>"; };
 		55D7894A256ABA7F002E0C53 /* ngx_progressart_test_module.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ngx_progressart_test_module.c; sourceTree = "<group>"; };
+		55D78952256B0D8D002E0C53 /* nginx-1.12.2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "nginx-1.12.2"; path = "../libraries/nginx-1.12.2"; sourceTree = "<group>"; };
+		55D78953256B1327002E0C53 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		55D78954256B1327002E0C53 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +47,7 @@
 			children = (
 				55D7893A256A9D56002E0C53 /* ngx_progressart_test_module */,
 				55D78939256A9D56002E0C53 /* Products */,
+				55D78951256B0D8D002E0C53 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,10 +62,20 @@
 		55D7893A256A9D56002E0C53 /* ngx_progressart_test_module */ = {
 			isa = PBXGroup;
 			children = (
+				55D78953256B1327002E0C53 /* LICENSE */,
+				55D78954256B1327002E0C53 /* README.md */,
 				55D78944256AA51B002E0C53 /* config */,
 				55D7894A256ABA7F002E0C53 /* ngx_progressart_test_module.c */,
 			);
 			path = ngx_progressart_test_module;
+			sourceTree = "<group>";
+		};
+		55D78951256B0D8D002E0C53 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				55D78952256B0D8D002E0C53 /* nginx-1.12.2 */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

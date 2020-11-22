@@ -9,28 +9,25 @@
 #include <ngx_core.h>
 #include <ngx_http.h>
 
-char    *ngx_http_progressart_test_conf(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
+char *ngx_http_progressart_test_conf(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
 
-void    *ngx_http_progressart_test_create_loc_conf(ngx_conf_t *cf);
+void *ngx_http_progressart_test_create_loc_conf(ngx_conf_t *cf);
 
-char    *ngx_http_progressart_test_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child);
+char *ngx_http_progressart_test_merge_loc_conf(ngx_conf_t *cf, void *parent, void *child);
 
-static char*    ngx_http_progressart_test(ngx_conf_t *cf, ngx_command_t *cmd, void *conf);
+static ngx_int_t ngx_http_progressart_test(ngx_conf_t *cf);
 
-static ngx_int_t    ngx_http_progressart_test_handler(ngx_http_request_t *r);
-
-//static ngx_int_t    ngx_http_progressart_test_filter_init(ngx_conf_t *cf);
+static ngx_int_t ngx_http_progressart_test_handler(ngx_http_request_t *r);
 
 typedef struct {
-    ngx_uint_t  show_test;
     ngx_flag_t  enable;
 } ngx_http_progressart_test_loc_conf_t;
 
 static ngx_command_t ngx_http_progressart_test_module_commands[] = {
-    { ngx_string("progressart_show_test"),            /*name derective**/
-      NGX_HTTP_LOC_CONF|NGX_CONF_NOARGS,
-      ngx_http_progressart_test,                      /*handler**/
-      NGX_HTTP_LOC_CONF_OFFSET,
+    { ngx_string("progressart_test"),                   /*name derective**/
+      NGX_HTTP_LOC_CONF|NGX_CONF_FLAG,
+      ngx_conf_set_flag_slot,
+      offsetof(ngx_http_progressart_test_loc_conf_t, enable),
       0,
       NULL },
     
@@ -39,7 +36,7 @@ static ngx_command_t ngx_http_progressart_test_module_commands[] = {
 
 static ngx_http_module_t ngx_http_progressart_test_module_ctx = {
     NULL,                                               /* preconfiguration */
-    NULL,                                               /* postconfiguration */
+    ngx_http_progressart_test,                          /* postconfiguration */
     NULL,                                               /* create main configuration */
     NULL,                                               /* init main configuration */
     NULL,                                               /* create server configuration */
@@ -50,31 +47,36 @@ static ngx_http_module_t ngx_http_progressart_test_module_ctx = {
 
 ngx_module_t  ngx_http_progressart_test_module = {
     NGX_MODULE_V1,
-    &ngx_http_progressart_test_module_ctx,              /* контекст модуля */
-    ngx_http_progressart_test_module_commands,          /* директивы модуля */
-    NGX_HTTP_MODULE,                                    /* тип модуля */
-    NULL,                                               /* инициализация мастера */
-    NULL,                                               /* инициализация модуля */
-    NULL,                                               /* инициализация процесса */
-    NULL,                                               /* инициализация треда */
-    NULL,                                               /* завершение треда */
-    NULL,                                               /* завершение процесса */
-    NULL,                                               /* завершение мастера */
+    &ngx_http_progressart_test_module_ctx,              /* module context */
+    ngx_http_progressart_test_module_commands,          /* module directives */
+    NGX_HTTP_MODULE,                                    /* module type */
+    NULL,                                               /* init master */
+    NULL,                                               /* init module */
+    NULL,                                               /* init process */
+    NULL,                                               /* init thread */
+    NULL,                                               /* exit thread */
+    NULL,                                               /* exit process */
+    NULL,                                               /* exit master */
     NGX_MODULE_V1_PADDING
 };
 
-static char *
-ngx_http_progressart_test(ngx_conf_t *cf, ngx_command_t *cmd, void *conf)
+static ngx_int_t
+ngx_http_progressart_test(ngx_conf_t *cf)
 {
-    ngx_http_core_loc_conf_t  *clcf;
-    ngx_http_progressart_test_loc_conf_t *ptlcf = conf;
+    ngx_http_handler_pt *h;
+    ngx_http_core_main_conf_t *cmcf;
 
-    clcf = ngx_http_conf_get_module_loc_conf(cf, ngx_http_core_module);
-    clcf->handler = ngx_http_progressart_test_handler;
+    cmcf = ngx_http_conf_get_module_main_conf(cf, ngx_http_core_module);
 
-    ptlcf->enable = 1;
+    h = ngx_array_push(&cmcf->phases[NGX_HTTP_CONTENT_PHASE].handlers);
+    
+    if (h == NULL) {
+        return NGX_ERROR;
+    }
 
-    return NGX_CONF_OK;
+    *h = ngx_http_progressart_test_handler;
+
+    return NGX_OK;
 }
 
 void *
@@ -167,15 +169,3 @@ ngx_http_progressart_test_handler(ngx_http_request_t *r)
 
     return ngx_http_output_filter(r, &out);
 }
-
-//static ngx_int_t
-//ngx_http_progressart_test_filter_init(ngx_conf_t *cf)
-//{
-//    ngx_http_next_header_filter = ngx_http_top_header_filter;
-//    ngx_http_top_header_filter  = ngx_http_chunked_header_filter;
-//
-//    ngx_http_next_body_filter   = ngx_http_top_body_filter;
-//    ngx_http_top_body_filter    = ngx_http_chunked_body_filter;
-//
-//    return NGX_OK;
-//}
