@@ -109,6 +109,7 @@ ngx_http_progressart_test_handler(ngx_http_request_t *r)
     ngx_int_t       rc;
     ngx_buf_t       *b;
     ngx_chain_t     out;
+    size_t          len;
 
 //    ngx_http_progressart_test_loc_conf_t  *ptlcf;
 //    ptlcf = ngx_http_get_module_loc_conf(r, ngx_http_progressart_test_module);
@@ -131,10 +132,12 @@ ngx_http_progressart_test_handler(ngx_http_request_t *r)
         ..
      } ngx_http_headers_out_t;
      */
+    len = sizeof("{\"r\":\"true\"}") - 1;
+    
     r->headers_out.status = NGX_HTTP_OK;
     r->headers_out.content_type.len = sizeof("application/json") - 1;
     r->headers_out.content_type.data = (u_char *) "application/json";
-    r->headers_out.content_length_n = sizeof("{\"r\":\"true\"}") - 1;
+    r->headers_out.content_length_n = len;
     
     if (r->method == NGX_HTTP_HEAD) {
         rc = ngx_http_send_header(r);
@@ -143,7 +146,7 @@ ngx_http_progressart_test_handler(ngx_http_request_t *r)
         }
     }
 
-    b = ngx_pcalloc(r->pool, sizeof(ngx_buf_t));
+    b = ngx_create_temp_buf(r->pool, len);
     if (b == NULL) {
         ngx_log_error(NGX_LOG_ERR, r->connection->log, 0, "Failed to allocate response buffer.");
         return NGX_HTTP_INTERNAL_SERVER_ERROR;
@@ -152,7 +155,8 @@ ngx_http_progressart_test_handler(ngx_http_request_t *r)
     out.buf = b;
     out.next = NULL;
     
-    b->last = ngx_cpymem(b->last, "{\"r\":\"true\"}", sizeof("{\"r\":\"true\"}") - 1);
+    b->last = ngx_cpymem(b->last, "{\"r\":\"true\"}", len);
+    
     b->last_buf = 1;
 
     rc = ngx_http_send_header(r);
