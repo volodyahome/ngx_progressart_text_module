@@ -1,0 +1,15 @@
+ngx_addon_name=ngx_http_brandshop_test_module
+PROGRESSART_TEST_SRCS="$ngx_addon_dir/ngx_progressart_test_module.c"
+
+if [ -n "$ngx_module_link" ]; then
+    ngx_module_type=HTTP
+    ngx_module_name="$ngx_addon_name"
+    ngx_module_srcs="$PROGRESSART_TEST_SRCS"
+
+    . auto/module
+else
+    HTTP_MODULES="$HTTP_MODULES $ngx_addon_name"
+    NGX_ADDON_SRCS="$NGX_ADDON_SRCS $PROGRESSART_TEST_SRCS"
+fi
+
+have=NGX_PROGRESSART_TEST_MODULE . auto/have
