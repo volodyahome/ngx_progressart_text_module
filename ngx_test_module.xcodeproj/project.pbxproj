@@ -42,7 +42,7 @@
 		55D7892F256A9D56002E0C53 = {
 			isa = PBXGroup;
 			children = (
-				55D7893A256A9D56002E0C53 /* ngx_test_module */,
+				55D7893A256A9D56002E0C53 /* ngx_progressart_test_module */,
 				55D78939256A9D56002E0C53 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,13 +55,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		55D7893A256A9D56002E0C53 /* ngx_test_module */ = {
+		55D7893A256A9D56002E0C53 /* ngx_progressart_test_module */ = {
 			isa = PBXGroup;
 			children = (
 				55D78944256AA51B002E0C53 /* config */,
 				55D7894A256ABA7F002E0C53 /* ngx_progressart_test_module.c */,
 			);
-			path = ngx_test_module;
+			path = ngx_progressart_test_module;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
