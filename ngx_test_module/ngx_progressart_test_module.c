@@ -39,7 +39,7 @@ static ngx_command_t ngx_http_progressart_test_module_commands[] = {
 
 static ngx_http_module_t ngx_http_progressart_test_module_ctx = {
     NULL,                                               /* preconfiguration */
-    ngx_http_progressart_test_filter_init,              /* postconfiguration */
+    NULL,                                               /* postconfiguration */
     NULL,                                               /* create main configuration */
     NULL,                                               /* init main configuration */
     NULL,                                               /* create server configuration */
@@ -51,7 +51,7 @@ static ngx_http_module_t ngx_http_progressart_test_module_ctx = {
 ngx_module_t  ngx_http_progressart_test_module = {
     NGX_MODULE_V1,
     &ngx_http_progressart_test_module_ctx,              /* контекст модуля */
-    ngx_http_progressart_test_commands,                 /* директивы модуля */
+    ngx_http_progressart_test_module_commands,          /* директивы модуля */
     NGX_HTTP_MODULE,                                    /* тип модуля */
     NULL,                                               /* инициализация мастера */
     NULL,                                               /* инициализация модуля */
@@ -109,10 +109,9 @@ ngx_http_progressart_test_handler(ngx_http_request_t *r)
     ngx_int_t       rc;
     ngx_buf_t       *b;
     ngx_chain_t     out;
-    size_t          len;
 
-    ngx_http_progressart_test_loc_conf_t  *ptlcf;
-    ptlcf = ngx_http_get_module_loc_conf(r, ngx_http_progressart_test_module);
+//    ngx_http_progressart_test_loc_conf_t  *ptlcf;
+//    ptlcf = ngx_http_get_module_loc_conf(r, ngx_http_progressart_test_module);
 
     if (!(r->method & NGX_HTTP_GET)) {
         ngx_log_error(NGX_LOG_ERR, r->connection->log, 0, "Invalid request method");
@@ -165,14 +164,14 @@ ngx_http_progressart_test_handler(ngx_http_request_t *r)
     return ngx_http_output_filter(r, &out);
 }
 
-static ngx_int_t
-ngx_http_progressart_test_filter_init(ngx_conf_t *cf)
-{
-    ngx_http_next_header_filter = ngx_http_top_header_filter;
-    ngx_http_top_header_filter  = ngx_http_chunked_header_filter;
-
-    ngx_http_next_body_filter   = ngx_http_top_body_filter;
-    ngx_http_top_body_filter    = ngx_http_chunked_body_filter;
-
-    return NGX_OK;
-}
+//static ngx_int_t
+//ngx_http_progressart_test_filter_init(ngx_conf_t *cf)
+//{
+//    ngx_http_next_header_filter = ngx_http_top_header_filter;
+//    ngx_http_top_header_filter  = ngx_http_chunked_header_filter;
+//
+//    ngx_http_next_body_filter   = ngx_http_top_body_filter;
+//    ngx_http_top_body_filter    = ngx_http_chunked_body_filter;
+//
+//    return NGX_OK;
+//}
